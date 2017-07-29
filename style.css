@@ -1,0 +1,35 @@
+body {
+  background: #222;
+  color: white;
+  font-family: sans-serif;
+}
+
+main {
+  margin: 0 auto;
+  min-width: 500px;
+  width: 90%;
+}
+
+.spotify-lookup {
+  background: green;
+  border-radius: 3px;
+  float: left;
+  min-height: 50%;
+  padding: 10px;
+  width: 45%;
+}
+
+.youtube-lookup {
+  background: red;
+  border-radius: 3px;
+  float: right;
+  min-height: 50%;
+  padding: 10px;
+  width: 45%;
+}
+
+.clear::after {
+  clear: both;
+  content: '';
+  display: block;
+}
