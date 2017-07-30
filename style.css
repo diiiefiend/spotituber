@@ -19,6 +19,37 @@ main {
   width: 45%;
 }
 
+.spotify-lookup input {
+  background: white;
+  border: 0;
+  border-bottom: 1px solid black;
+  display: inline-block;
+  padding: 5px 10px;
+  width: 40%;
+}
+
+.spotify-lookup button {
+  background: #ddd;
+  border: 1px solid black;
+  padding: 5px 10px;
+}
+
+.spotify-results {
+  margin: 0 -10px;
+}
+
+.spotify-results ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.spotify-results li {
+  border-bottom: 1px solid black;
+  margin: 5px 0;
+  padding: 2px 5px;
+}
+
 .youtube-lookup {
   background: red;
   border-radius: 3px;
