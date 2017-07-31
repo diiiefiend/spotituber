@@ -1,4 +1,6 @@
 var spotifyServiceImpl = function ($http, $q, $window) {
+  var tracksArr;
+
   // unfortunately have to do it this way unless I want to set up a backend...
   var getToken = function () {
     // GET https://accounts.spotify.com/authorize
@@ -6,7 +8,7 @@ var spotifyServiceImpl = function ($http, $q, $window) {
     var params = {
       client_id: creds.spotify.client_id,
       response_type: 'token',
-      redirect_uri: 'http://localhost:8080/stage3'
+      redirect_uri: 'http://localhost:8080/stage4'
     };
     var paramsStr = Object.entries(params).reduce(function (base, entry){
       return base + entry[0] + '=' + entry[1] + '&';
@@ -19,8 +21,9 @@ var spotifyServiceImpl = function ($http, $q, $window) {
     if (!sessionStorage.getItem('spotifyToken')) {
       if ($window.location.href.indexOf('access_token=') > -1) {
         sessionStorage.setItem('spotifyToken', $window.location.href.match(/access_token=([^&]*){1}/)[1]);
+        $window.location.hash = '';
       } else {
-        alert('click the fetch token button first!');
+        alert('click the spotify fetch token button first!');
         return $q.reject();
       };
     };
@@ -40,17 +43,29 @@ var spotifyServiceImpl = function ($http, $q, $window) {
       $http.get(url, config)
         .then(function (response) {
           console.log(response);
-          resolve(response.data.items); //is an array of track objects
+          tracksArr = response.data.items;  //is an array of track objects
+          resolve(tracksArr);
         }).catch(function (err) {
-          console.log('Boo: ' + err.data.error.message);
+          var errorMessage = err.data.error.message;
+          console.log('Boo: ' + errorMessage);
+          if (['The access token expired', 'Invalid access token'].indexOf(errorMessage) > -1) {
+            sessionStorage.removeItem('spotifyToken');
+            alert('Please generate new token');
+          };
+
           reject(err);
         });
     });
   };
 
+  var getTracks = function () {
+    return tracksArr;
+  }
+
   return {
     getToken: getToken,
-    fetchPlaylist: fetchPlaylist
+    fetchPlaylist: fetchPlaylist,
+    getTracks: getTracks
   };
 };
 
@@ -77,14 +92,3 @@ var spotifyController = function ($scope, spotifyService) {
       });
   };
 };
-
-angular.module('spotituber', [])
-  .factory('spotifyService', ['$http', '$q', '$window', spotifyServiceImpl])
-  .directive('spotifyLookup', function () {
-    return {
-      restrict: 'E',
-      templateUrl: 'spotify-lookup.html',
-      controller: ['$scope', 'spotifyService', spotifyController],
-      controllerAs: 'spotifyCtrl'
-    };
-  });

@@ -1,0 +1,15 @@
+<div class="spotify-form">
+  <button type="submit" ng-click="spotifyCtrl.getToken()">Get Token</button>
+  <hr />
+  <input type="text" ng-model="spotifyCtrl.userId" name="user-id" placeholder="User ID" />
+  <input type="text" ng-model="spotifyCtrl.playlistId" name="playlist-id" placeholder="Playlist ID" />
+  <button type="submit" ng-click="spotifyCtrl.fetch()">gogo</button>
+</div>
+
+<div class="spotify-results">
+  <ul>
+    <li ng-repeat="entry in tracksArr">
+      {{ entry.track.name }} :: {{ entry.track.artists[0].name }}
+    </li>
+  </ul>
+</div>

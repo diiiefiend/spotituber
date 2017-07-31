@@ -38,14 +38,15 @@ main {
   margin: 0 -10px;
 }
 
-.spotify-results ul {
+.spotify-results ul, .youtube-results ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.spotify-results li {
+.spotify-results li, .youtube-results li {
   border-bottom: 1px solid black;
+  font-size: 11px;
   margin: 5px 0;
   padding: 2px 5px;
 }

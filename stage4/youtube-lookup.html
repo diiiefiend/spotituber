@@ -1,0 +1,15 @@
+<div class="youtube-form">
+  <button type="submit" ng-click="youtubeCtrl.getToken()">Get Token</button>
+  <hr />
+  <button type="submit" ng-click="youtubeCtrl.lookupVideos()">Lookup Videos</button>
+</div>
+
+<div class="youtube-results">
+  <ul>
+    <li ng-repeat="entry in videosArr">
+      {{ entry.title }} :: {{ entry.channel }}
+    </li>
+  </ul>
+  <hr />
+  <button type="submit" ng-click="youtubeCtrl.createPlaylist()" ng-disabled="videosArr.length === 0">Create Playlist</button>
+</div>
