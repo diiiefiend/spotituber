@@ -19,7 +19,8 @@
 
 ### stage 4: add youtubs (directive + controller + service)
  * simple algo (create playlist, search youtube, grab video, and add to playlist)
- * service: create playlist.then foreach song, search youtube for 'artist+song' TYPE video LIMIT 1 SORT BY viewcount.then add to playlist
+ * service: foreach song, search youtube for 'artist+song' TYPE video LIMIT 1 SORT BY relevance.
+ * once all videos are in a list, have option to create playlist
 
 ### wrapup:
  * enhancements: ui-router, resolves, etc

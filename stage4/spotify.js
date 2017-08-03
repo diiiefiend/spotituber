@@ -1,5 +1,5 @@
 var spotifyServiceImpl = function ($http, $q, $window) {
-  var tracksArr;
+  var tracksObj;
 
   // unfortunately have to do it this way unless I want to set up a backend...
   var getToken = function () {
@@ -24,18 +24,18 @@ var spotifyServiceImpl = function ($http, $q, $window) {
         $window.location.hash = '';
       } else {
         alert('click the spotify fetch token button first!');
-        return $q.reject();
+        return $q.reject({data: {error: {message: 'invalid token'}}});
       };
     };
 
-    //$http.get request to GET https://api.spotify.com/v1/users/{user_id}/playlists/{playlist_id}/tracks
-    var url = 'https://api.spotify.com/v1/users/' + userId + '/playlists/' + playlistId + '/tracks';
+    // GET https://api.spotify.com/v1/users/{user_id}/playlists/{playlist_id}
+    var url = 'https://api.spotify.com/v1/users/' + userId + '/playlists/' + playlistId;
     var config = {
       headers: {
         Authorization: 'Bearer ' + sessionStorage.getItem('spotifyToken')
       },
       params: {
-        fields: 'items(track(name,artists(name)))'
+        fields: 'name,tracks.items(track(name,artists(name)))'
       }
     };
 
@@ -43,8 +43,11 @@ var spotifyServiceImpl = function ($http, $q, $window) {
       $http.get(url, config)
         .then(function (response) {
           console.log(response);
-          tracksArr = response.data.items;  //is an array of track objects
-          resolve(tracksArr);
+          tracksObj = {
+            name: response.data.name,
+            tracks: response.data.tracks.items //is an array of track objects
+          };
+          resolve(tracksObj);
         }).catch(function (err) {
           var errorMessage = err.data.error.message;
           console.log('Boo: ' + errorMessage);
@@ -59,13 +62,18 @@ var spotifyServiceImpl = function ($http, $q, $window) {
   };
 
   var getTracks = function () {
-    return tracksArr;
+    return  tracksObj ? tracksObj.tracks : undefined;
+  }
+
+  var getPlaylistName = function () {
+    return tracksObj ? tracksObj.name : undefined;
   }
 
   return {
     getToken: getToken,
     fetchPlaylist: fetchPlaylist,
-    getTracks: getTracks
+    getTracks: getTracks,
+    getPlaylistName: getPlaylistName
   };
 };
 
@@ -86,7 +94,7 @@ var spotifyController = function ($scope, spotifyService) {
     spotifyService.fetchPlaylist(this.userId, this.playlistId)
       .then(function (data) {
         // using $scope here to trigger the auto-re-render
-        $scope.tracksArr = data;
+        $scope.tracksObj = data;
       }).catch(function (err) {
         console.log('uh oh: ' + err.data.error.message);
       });

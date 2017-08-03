@@ -7,8 +7,9 @@
 </div>
 
 <div class="spotify-results">
+  <h2>{{ tracksObj.name }}</h2>
   <ul>
-    <li ng-repeat="entry in tracksArr">
+    <li ng-repeat="entry in tracksObj.tracks">
       {{ entry.track.name }} :: {{ entry.track.artists[0].name }}
     </li>
   </ul>

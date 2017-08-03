@@ -9,11 +9,12 @@ angular.module('spotituber', [])
     };
   })
   .factory('youtubeService', ['$http', '$q', '$window', 'spotifyService', youtubeServiceImpl])
+  .controller('youtubeController', ['$scope', '$sce', 'youtubeService', youtubeController])
   .directive('youtubeLookup', function () {
     return {
       restrict: 'E',
       templateUrl: 'youtube-lookup.html',
-      controller: ['$scope', 'youtubeService', youtubeController],
+      controller: 'youtubeController',
       controllerAs: 'youtubeCtrl'
     };
   });

@@ -4,11 +4,11 @@
   <link rel="stylesheet" href="../style.css">
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
 </head>
-<body>
+<body ng-app="spotituber">
   <header>
     <h1>Amazing Playlist Looker-upper Spotituber</h1>
   </header>
-  <main class="clear" ng-app="spotituber">
+  <main class="clear">
     <section class="spotify-lookup">
       <spotify-lookup></spotify-lookup>
     </section>
@@ -17,7 +17,7 @@
     </section>
   </main>
   <footer>
-    <p>Stuff</p>
+    <div ng-controller="youtubeController" ng-bind-html="playerHtml"></div>
   </footer>
 
   <script src="../creds.js"></script>
