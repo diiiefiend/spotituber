@@ -1,4 +1,4 @@
-<div class="spotify-form">
+<div class="lookup-form">
   <button type="submit" ng-click="spotifyCtrl.getToken()">Get Token</button>
   <hr />
   <input type="text" ng-model="spotifyCtrl.userId" name="user-id" placeholder="User ID" />
@@ -6,11 +6,12 @@
   <button type="submit" ng-click="spotifyCtrl.fetch()">gogo</button>
 </div>
 
-<div class="spotify-results">
-  <h2>{{ tracksObj.name }}</h2>
+<div class="lookup-results">
   <ul>
     <li ng-repeat="entry in tracksObj.tracks">
-      {{ entry.track.name }} :: {{ entry.track.artists[0].name }}
+      {{ entry.track.name }} <span class="artist">{{ entry.track.artists[0].name }}</span>
     </li>
   </ul>
+  <h2 class="section-name">spotify</h2>
+  <h3 class="spotify-name">{{ tracksObj.name }}</h3>
 </div>

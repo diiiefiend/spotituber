@@ -4,12 +4,12 @@ angular.module('spotituber', [])
     return {
       restrict: 'E',
       templateUrl: 'spotify-lookup.html',
-      controller: ['$scope', 'spotifyService', spotifyController],
+      controller: ['$scope', '$rootScope', 'spotifyService', spotifyController],
       controllerAs: 'spotifyCtrl'
     };
   })
   .factory('youtubeService', ['$http', '$q', '$window', 'spotifyService', youtubeServiceImpl])
-  .controller('youtubeController', ['$scope', '$sce', 'youtubeService', youtubeController])
+  .controller('youtubeController', ['$scope', '$rootScope', '$sce', 'youtubeService', youtubeController])
   .directive('youtubeLookup', function () {
     return {
       restrict: 'E',

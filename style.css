@@ -6,62 +6,135 @@ body {
 
 main {
   margin: 0 auto;
-  min-width: 500px;
+  min-width: 800px;
   width: 90%;
 }
 
-.spotify-lookup {
-  background: green;
+.lookup {
   border-radius: 3px;
-  float: left;
-  min-height: 50%;
+  min-height: 30%;
   padding: 10px;
+  position: relative;
   width: 45%;
 }
 
-.spotify-lookup input {
+.lookup button {
   background: white;
+  border: 1px solid black;
+  border-radius: 50px;
+  color: black;
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 5px;
+  text-transform: uppercase;
+  transition: background .5s, color .5s, transform .5s;
+}
+
+.lookup button:hover {
+  background: black;
+  color: white;
+}
+
+.lookup hr {
+  background: #222;
+  border: 0;
+  height: 3px;
+  margin: 10px -10px;
+}
+
+.lookup input {
+  background: transparent;
   border: 0;
   border-bottom: 1px solid black;
+  color: white;
   display: inline-block;
   padding: 5px 10px;
   width: 40%;
 }
-
-.spotify-lookup button {
-  background: #ddd;
-  border: 1px solid black;
-  padding: 5px 10px;
+.lookup input::placeholder {
+  color: #ccc;
 }
 
-.spotify-results {
-  margin: 0 -10px;
+.section-name {
+  font-size: 30px;
+  font-variant: small-caps;
+  letter-spacing: 0.3em;
+  margin: 10px 0 0;
+  opacity: 0.3;
 }
 
-.spotify-results ul, .youtube-results ul {
+.lookup-form {
+  min-height: 75px;
+}
+
+.lookup-results {
+}
+
+.lookup-results ul {
   list-style: none;
-  margin: 0;
+  margin: 15px -10px;
   padding: 0;
 }
 
-.spotify-results li, .youtube-results li {
+.lookup-results li {
   border-bottom: 1px solid black;
   font-size: 11px;
-  margin: 5px 0;
-  padding: 2px 5px;
+  margin: 10px 0;
+  padding: 2px 20px;
 }
 
-.youtube-lookup {
+.artist {
+  font-style: italic;
+  opacity: 0.8;
+}
+
+.lookup.spotify {
+  background: green;
+  float: left;
+}
+
+.spotify-name {
+  margin: -25px 0 0;
+  text-align: right;
+}
+
+.lookup.youtube {
   background: red;
-  border-radius: 3px;
   float: right;
-  min-height: 50%;
-  padding: 10px;
-  width: 45%;
+}
+
+.lookup .youtube-lookup-btn:hover {
+  background: green;
+}
+
+.lookup .youtube-lookup-hidden {
+  transform: scale(0, 0);
+}
+
+.create-playlist-btn {
+  float: right;
+  margin-top: -30px;
+  position: relative;
+  z-index: 1;
+}
+
+.youtube-player {
+  clear: both;
+  padding: 20px;
+}
+
+.youtube-frame {
+  margin: 10px;
+  text-align: center;
 }
 
 .clear::after {
   clear: both;
   content: '';
   display: block;
+}
+
+button:disabled {
+  opacity: 0;
 }

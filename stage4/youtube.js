@@ -187,13 +187,16 @@ var youtubeServiceImpl = function ($http, $q, $window, spotifyService) {
         .then(function (response) {
           console.log('created the playlist!');
 
-          var playlistId = response.data.id;
-          var playlistPlayerHtml = fixSrc(response.data.player.embedHtml);
+          var playlistObj = {
+            id: response.data.id,
+            name: response.data.snippet.title,
+            playerHtml: fixSrc(response.data.player.embedHtml)
+          };
 
           // then add the videos
-          addVideosToPlaylist(playlistId)
+          addVideosToPlaylist(playlistObj.id)
             .then(function () {
-              resolve(playlistPlayerHtml);
+              resolve(playlistObj);
             });
         }).catch(errorHandler);
     });
@@ -206,7 +209,9 @@ var youtubeServiceImpl = function ($http, $q, $window, spotifyService) {
   };
 }
 
-var youtubeController = function ($scope, $sce, youtubeService) {
+var youtubeController = function ($scope, $rootScope, $sce, youtubeService) {
+  $scope.canLookup = false;
+
   this.getToken = function () {
     youtubeService.getToken();
   };
@@ -226,9 +231,15 @@ var youtubeController = function ($scope, $sce, youtubeService) {
     console.log('creating...');
     youtubeService.createPlaylist()
       .then(function (data) {
-        $scope.playerHtml = $sce.trustAsHtml(data);
+        $scope.playlistName = data.name;
+        $scope.playlistUrl = 'https://www.youtube.com/watch?v=' + $scope.videosArr[0].videoId + '&list=' + data.id;
+        $scope.playerHtml = $sce.trustAsHtml(data.playerHtml);
       }).catch(function (err) {
         console.log('uh oh: ' + err.data.error.message);
       });
   };
+
+  $rootScope.$on('spotifyTracksFetched', function() {
+    $scope.canLookup = true;
+  });
 };

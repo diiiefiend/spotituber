@@ -9,15 +9,21 @@
     <h1>Amazing Playlist Looker-upper Spotituber</h1>
   </header>
   <main class="clear">
-    <section class="spotify-lookup">
+    <section class="lookup spotify">
       <spotify-lookup></spotify-lookup>
     </section>
-    <section class="youtube-lookup">
+    <section class="lookup youtube">
       <youtube-lookup></youtube-lookup>
+    </section>
+
+    <section ng-controller="youtubeController" class="youtube-player">
+      <h2>{{ playlistName }}</h2>
+      <h4><a href="{{ playlistUrl }}" target="_blank">{{ playlistUrl }}</a></h4>
+      <div class="youtube-frame" ng-bind-html="playerHtml"></div>
     </section>
   </main>
   <footer>
-    <div ng-controller="youtubeController" ng-bind-html="playerHtml"></div>
+    <p>bloop</p>
   </footer>
 
   <script src="../creds.js"></script>

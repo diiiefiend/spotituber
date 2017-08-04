@@ -77,7 +77,7 @@ var spotifyServiceImpl = function ($http, $q, $window) {
   };
 };
 
-var spotifyController = function ($scope, spotifyService) {
+var spotifyController = function ($scope, $rootScope, spotifyService) {
   this.getToken = function () {
     spotifyService.getToken();
   };
@@ -95,6 +95,7 @@ var spotifyController = function ($scope, spotifyService) {
       .then(function (data) {
         // using $scope here to trigger the auto-re-render
         $scope.tracksObj = data;
+        $rootScope.$emit('spotifyTracksFetched');
       }).catch(function (err) {
         console.log('uh oh: ' + err.data.error.message);
       });
