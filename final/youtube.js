@@ -15,8 +15,10 @@ var youtubeServiceImpl = function ($http, $q, $window, spotifyService) {
   };
 
   var setToken = function () {
-    // here we should set the Youtube OAuth token
-    // TODO: IMPLEMENTATION LEFT AS EXERCISE FOR READER
+    if (!sessionStorage.getItem('youtubeToken') && $window.location.href.indexOf('access_token=') > -1) {
+      sessionStorage.setItem('youtubeToken', $window.location.href.match(/access_token=([^&]*){1}/)[1]);
+      $window.location.hash = '';
+    };
   };
 
   var fixSrc = function (embedPlayerHtml) {
@@ -81,7 +83,7 @@ var youtubeServiceImpl = function ($http, $q, $window, spotifyService) {
     var params = {
       client_id: creds.youtube.client_id,
       response_type: 'token',
-      redirect_uri: 'http://localhost:8080/stage4',
+      redirect_uri: $window.location.origin + $window.location.pathname,
       scope: 'https://www.googleapis.com/auth/youtube.force-ssl'
     };
     var paramsStr = Object.entries(params).reduce(function (base, entry){
@@ -129,8 +131,23 @@ var youtubeServiceImpl = function ($http, $q, $window, spotifyService) {
     });
 
     return $q(function (resolve, reject) {
-      // let's search youtube for all these videos
-      // TODO: IMPLEMENTATION LEFT AS EXERCISE FOR READER
+      $q.all(searchPromises)
+        .then(function (response) {
+          console.log(response);
+          // parse the response object, it's too complex
+          playlistArr = [];
+          response.forEach(function (entry) {
+            var simplifiedEntry = {
+              title: entry.data.items[0].snippet.title,
+              channel: entry.data.items[0].snippet.channelTitle,
+              videoId: entry.data.items[0].id.videoId
+            };
+
+            playlistArr.push(simplifiedEntry);
+          });
+
+          resolve(playlistArr);
+        }).catch(errorHandler);
     });
   };
 
@@ -165,8 +182,23 @@ var youtubeServiceImpl = function ($http, $q, $window, spotifyService) {
     };
 
     return $q(function (resolve, reject) {
-      // create the playlist and add the videos
-      // TODO: IMPLEMENTATION LEFT AS EXERCISE FOR READER
+      // first create the playlist
+      $http.post(url, body, config)
+        .then(function (response) {
+          console.log('created the playlist!');
+
+          var playlistObj = {
+            id: response.data.id,
+            name: response.data.snippet.title,
+            playerHtml: fixSrc(response.data.player.embedHtml)
+          };
+
+          // then add the videos
+          addVideosToPlaylist(playlistObj.id)
+            .then(function () {
+              resolve(playlistObj);
+            });
+        }).catch(errorHandler);
     });
   };
 

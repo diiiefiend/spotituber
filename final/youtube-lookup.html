@@ -1,0 +1,16 @@
+<div class="lookup-form">
+  <button type="submit" ng-click="youtubeCtrl.getToken()">Get Token</button>
+  <hr />
+  <button type="submit" ng-click="youtubeCtrl.lookupVideos()"
+    ng-class="['youtube-lookup-btn', {'youtube-lookup-hidden': !canLookup}]">Lookup Videos</button>
+</div>
+
+<div class="lookup-results" ng-if="videosArr.length > 0">
+  <ul>
+    <li ng-repeat="entry in videosArr">
+      {{ entry.title }} <span class="artist">{{ entry.channel }}</span>
+    </li>
+  </ul>
+  <h2 class="section-name">youtube</h2>
+  <button class="create-playlist-btn" type="submit" ng-click="youtubeCtrl.createPlaylist()">Create Playlist</button>
+</div>

@@ -4,12 +4,11 @@
  * what is angular
  * brief comparison of ng vs other frameworks
  * key concepts: directive, controller, service (which will be explained later)
- * overview of project and API endpoints we will be using
 
 ### stage 1: basic design, html/css
+* overview of project and API endpoints we will be using
 
 ### stage 2: add ng and directives/controllers for spotify
- * why add script tag at bottom of page?
  * what is a directive? what is a controller? why use a directive here and not just a controller?
 
 ### stage 3: add services
