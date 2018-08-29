@@ -137,11 +137,17 @@ var youtubeServiceImpl = function ($http, $q, $window, spotifyService) {
           // parse the response object, it's too complex
           playlistArr = [];
           response.forEach(function (entry) {
-            var simplifiedEntry = {
-              title: entry.data.items[0].snippet.title,
-              channel: entry.data.items[0].snippet.channelTitle,
-              videoId: entry.data.items[0].id.videoId
-            };
+            try {
+              var simplifiedEntry = {
+                title: entry.data.items[0].snippet.title,
+                channel: entry.data.items[0].snippet.channelTitle,
+                videoId: entry.data.items[0].id.videoId
+              };
+            } catch(e) {
+              // some simplistic error handling
+              console.log('issue with entry! ' + entry.data);
+              return;
+            }
 
             playlistArr.push(simplifiedEntry);
           });
